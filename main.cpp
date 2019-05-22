@@ -13,8 +13,8 @@ typedef std::set<int> conjunto;
 typedef std::map<int,conjunto> fila;
 typedef std::map<int, fila> Tabla;
 
-//typedef enum{S=83,R=82,A=65,B=66,C=67,D=68} generadores; //Simbolos generadores  /*simbolo=valor ASCII*/ 
-//typedef enum{l=108,x=120,c=99,t=116} terminales; //Simbolos terminales  /*simbolo=valor ASCII*/	
+typedef enum{S=83,R=82,A=65,B=66,C=67,D=68} generadores; //Simbolos generadores  /*simbolo=valor ASCII*/ 
+typedef enum{l=108,x=120,c=99,t=116} terminales; //Simbolos terminales  /*simbolo=valor ASCII*/	
 
 Tabla tabla;
 
@@ -44,14 +44,14 @@ Regla crearRegla(int a, int b, int c=0) /*(generador, primero, segundo) si no ha
 
 void inicializarGramatica() 
 {						   	   
-	gramatica.push_back(crearRegla(S,A,C));// S->AB
-	gramatica.push_back(crearRegla(C,S,R));// S->BC
-	gramatica.push_back(crearRegla(R,B,D));// A->BA
-	gramatica.push_back(crearRegla(D,S,R));// A->a
-	gramatica.push_back(crearRegla(A,l));// B->CC
-	gramatica.push_back(crearRegla(S,x));// B->b
-	gramatica.push_back(crearRegla(B,c));// C->AB
-	gramatica.push_back(crearRegla(R,t));// C->a
+	gramatica.push_back(crearRegla(S,A,C));// S->AC
+	gramatica.push_back(crearRegla(C,S,R));// C->SR
+	gramatica.push_back(crearRegla(R,B,D));// R->BD
+	gramatica.push_back(crearRegla(D,S,R));// D->SR
+	gramatica.push_back(crearRegla(A,l));// A->l
+	gramatica.push_back(crearRegla(S,x));// S->x
+	gramatica.push_back(crearRegla(B,c));// B->c
+	gramatica.push_back(crearRegla(R,t));// R->t
 }
 
 void imprimirGramatica(Gramatica &s) //Imprime la gramatica
@@ -63,12 +63,12 @@ void imprimirGramatica(Gramatica &s) //Imprime la gramatica
 	}
 }
 
-bool esMiembro(conjunto &s, int a)
+bool esMiembro(conjunto &s, int a) //Retorna true si a pertenece al conjunto s
 {
 	return s.find(a)!=s.end();
 }
 
-void insertarEnConjunto(conjunto &s, int a) 
+void insertarEnConjunto(conjunto &s, int a) //inserta a en el conjunto s
 {
 	for (int i=0; i<gramatica.size(); i++)
 	{
@@ -79,7 +79,7 @@ void insertarEnConjunto(conjunto &s, int a)
 	}
 }
 
-void insertarEnConjunto(conjunto &s, int a, int b) 
+void insertarEnConjunto(conjunto &s, int a, int b) //inserta a y b en el conjunto s
 {
 	for (int i=0; i<gramatica.size(); i++)
 	{
@@ -90,7 +90,7 @@ void insertarEnConjunto(conjunto &s, int a, int b)
 	}
 }
 
-void obtenerConjunto(conjunto &s, conjunto &s1,conjunto &s2) 
+void unirConjuntos(conjunto &s, conjunto &s1,conjunto &s2) //une el conjunto s con los conjuntos s1 y s2 
 {
 	conjunto::iterator itr1;
 	conjunto::iterator itr2;
@@ -121,7 +121,7 @@ bool cyk(Gramatica &g, string &w)
 		{
 			for (int k=1; k<=j-1; k++)
 			{
-				obtenerConjunto(tabla[i][j], tabla[i][k], tabla[i + k][j - k]);
+				unirConjuntos(tabla[i][j], tabla[i][k], tabla[i + k][j - k]);
 			}
 		}
 	}
