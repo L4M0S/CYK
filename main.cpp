@@ -12,8 +12,9 @@ using namespace std;
 typedef std::set<int> conjunto;
 typedef std::map<int,conjunto> fila;
 typedef std::map<int, fila> Tabla;
-typedef enum{S=83,A=65,B=66,C=67} generadores; //Simbolos generadores  /*simbolo=valor ASCII*/ 
-typedef enum{a=97,b=98} terminales; //Simbolos terminales  /*simbolo=valor ASCII*/
+
+//typedef enum{S=83,R=82,A=65,B=66,C=67,D=68} generadores; //Simbolos generadores  /*simbolo=valor ASCII*/ 
+//typedef enum{l=108,x=120,c=99,t=116} terminales; //Simbolos terminales  /*simbolo=valor ASCII*/	
 
 Tabla tabla;
 
@@ -43,14 +44,14 @@ Regla crearRegla(int a, int b, int c=0) /*(generador, primero, segundo) si no ha
 
 void inicializarGramatica() 
 {						   	   
-	gramatica.push_back(crearRegla(S,A,B));// S->AB
-	gramatica.push_back(crearRegla(S,B,C));// S->BC
-	gramatica.push_back(crearRegla(A,B,A));// A->BA
-	gramatica.push_back(crearRegla(A,'a'));// A->a
-	gramatica.push_back(crearRegla(B,C,C));// B->CC
-	gramatica.push_back(crearRegla(B,'b'));// B->b
-	gramatica.push_back(crearRegla(C,A,B));// C->AB
-	gramatica.push_back(crearRegla(C,'a'));// C->a
+	gramatica.push_back(crearRegla(S,A,C));// S->AB
+	gramatica.push_back(crearRegla(C,S,R));// S->BC
+	gramatica.push_back(crearRegla(R,B,D));// A->BA
+	gramatica.push_back(crearRegla(D,S,R));// A->a
+	gramatica.push_back(crearRegla(A,l));// B->CC
+	gramatica.push_back(crearRegla(S,x));// B->b
+	gramatica.push_back(crearRegla(B,c));// C->AB
+	gramatica.push_back(crearRegla(R,t));// C->a
 }
 
 void imprimirGramatica(Gramatica &s) //Imprime la gramatica
