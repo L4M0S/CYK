@@ -8,12 +8,12 @@
 using namespace std;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-typedef std::set<int> Casilla;	//conjunto de simbolos generadores de la casilla
+typedef std::set<int> Casilla;	//Conjunto de simbolos generadores de la casilla
 typedef std::map<int,Casilla> Fila;	
 typedef std::map<int, Fila> Tabla;
 
-typedef enum{S=83,R=82,A=65,B=66,C=67,D=68} Generadores; //Simbolos generadores  /*simbolo=valor ASCII*/ 
-typedef enum{l=108,x=120,c=99,t=116} Terminales; //Simbolos terminales  /*simbolo=valor ASCII*/	
+typedef enum{S=83,R=82,A=65,B=66,C=67,D=68} Generadores; //Simbolos generadores  // simbolo=valorASCII
+typedef enum{l=108,x=120,c=99,t=116} Terminales; //Simbolos terminales  //simbolo=valorASCII
 
 Generadores generdores;
 Terminales terminales;
@@ -45,7 +45,7 @@ Proyeccion proyeccion(int a, int b, int c=0) //(generador, primero, segundo) si 
 	return proyeccion;
 }
 
-void definirGramatica()
+void definirGramatica()	//Agrega las proyecciones a la gramatica 
 {						   	   
 	gramatica.push_back(proyeccion(S,A,C));	// S->AC
 	gramatica.push_back(proyeccion(C,S,R));	// C->SR
@@ -66,7 +66,7 @@ void imprimirGramatica(Gramatica &g) //Imprime la gramatica
 	}
 }
 
-void reiniciar()	//limpia el contenido de la tabla
+void reiniciar()	//Limpia el contenido de la tabla
 {
 	for(int i=0;i<tabla.size();i++)
 	{
@@ -79,7 +79,7 @@ void reiniciar()	//limpia el contenido de la tabla
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void insertarConjunto(Casilla &c, int a) //inserta el generador de a en el conjunto c // a es terminal //primer columna
+void insertarConjunto(Casilla &c, int a) //Inserta el generador de a en el conjunto c // a es terminal //primer columna
 {
 	for(int i=0; i<gramatica.size(); i++)
 	{
@@ -127,7 +127,7 @@ bool cyk(Gramatica &g, string &w)
 {
 	int n=w.length();
 
-	for(int i=1; i<=n; i++) //primer columna 
+	for(int i=1; i<=n; i++) //Primer columna de la tabla
 	{
 		insertarConjunto(tabla[i][1],w[i-1]);
 	}
